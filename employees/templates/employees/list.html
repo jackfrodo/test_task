@@ -1,0 +1,53 @@
+{% extends "employees/base.html" %}
+
+{% block title %}База Сотрудников компании{% endblock %}
+
+{% block content %}
+	<form action="" method="get">
+		{% load app_filters %}
+		 <div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="{{ filter.form.departament.id_for_label }}">Отдел</label>
+				{{ filter.form.departament|addbs:"form-control" }}
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div>
+				<label for="{{ filter.form.in_company.id_for_label }}">Работает в компании</label>
+				{{ filter.form.in_company|addbs:"form-control" }}
+			</div>
+		</div>
+		<div class="col-md-offset-10 col-md-2">
+			<button type="submit" class="btn btn-primary">Найти</button>
+		</div>
+		</div>
+	</form>
+</div>
+<div class="col-md-12">
+	<h4>Сотрудники</h4>
+	<ul class="pagination">
+		{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}&departament={{ departament }}&in_company={{ in_company }}">&laquo;</a></li>
+		{% endif %}
+		<li><a>{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</a></li>
+		{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}&departament={{ departament }}&in_company={{ in_company }}">&raquo;</a></li>
+		{% endif %}
+	</ul>
+	<ul>
+	{% for employee in employees %}
+		<li><a href="/employees/{{ employee.id }}/">{{ employee.surname }} {{ employee.name }} {{ employee.patronymic }}</a></li>
+	{% endfor %}
+	</ul>
+	<ul class="pagination">
+		{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}&departament={{ departament }}&in_company={{ in_company }}">&laquo;</a></li>
+		{% endif %}
+		<li><a>{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</a></li>
+		{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}&departament={{ departament }}&in_company={{ in_company }}">&raquo;</a></li>
+		{% endif %}
+	</ul>
+</div>
+{% endblock content %}

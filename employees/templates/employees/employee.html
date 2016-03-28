@@ -1,0 +1,35 @@
+{% extends "employees/base.html" %}
+
+{% block title %}О сотруднике{% endblock %}
+
+{% block content %}
+<h4>
+	Данные сотрудника
+</h4>
+<div>
+	{{ employee.surname }} {{ employee.name }} {{ employee.patronymic }}
+</div>
+<div>
+	Должность: {{ employee.post }}
+</div>
+<div>
+	Отдел: {{ employee.departament }}
+</div>
+<div>
+	Дата рождения: {{ employee.birthday|date:"d.m.Y" }}
+</div>
+<div>
+	E-mail: {{ employee.email }}
+</div>
+<div>
+	Телефон: {{ employee.phone }}
+</div>
+<div>
+	Период работы: {{ employee.begin_work|date:"d.m.Y" }} -
+	{% if employee.end_work %}
+		{{ employee.end_work|date:"d.m.Y" }}
+	{% else %}
+		по настоящее время
+	{% endif %}
+</div>
+{% endblock content %}

@@ -1,0 +1,7 @@
+static/components
+components/bower_components
+
+*.log
+*.pyc
+*.db
+*.sqlite
