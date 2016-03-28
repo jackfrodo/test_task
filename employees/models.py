@@ -24,12 +24,6 @@ class Employee(models.Model):
     end_working_date = models.DateField(null=True, db_index=True)
     position = models.CharField(max_length=200)
     departament = models.ForeignKey(Departament)
-    index = models.CharField(max_length=1, db_index=True)
 
     def __unicode__(self):
         return "%s %s %s" % (self.surname, self.name, self.patronymic,)
-
-
-@receiver(pre_save, sender=Employee)
-def add_index(sender, instance, *args, **kwargs):
-    instance.index = instance.surname[0].upper()

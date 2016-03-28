@@ -7,8 +7,8 @@
 {% load app_filters %}
 <div class="row">
 {% for group in al_groups %}
-	<a class="btn btn-default" href="/employees/range?alpha={{ group.chars | joinby:", " }}" role="button">
-		{{ group.name }}
+	<a class="btn btn-default" href="/employees/range?alpha={{ group.get_chars }}" role="button">
+		{{ group.get_name }}
 	</a>
 {% endfor %}
 </div>

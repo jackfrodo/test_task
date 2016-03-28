@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from django_filters.views import FilterView
 from django.views.generic import ListView
-from employees.filters import EmployeeFilter, perform_alpha_groups
-from employees.models import Employee
+from employees.filters import EmployeeFilter, AlphaGroup
 from django.db.models import Count
 from employees.models import Employee
-
+from django.db.models.functions import Substr,Upper
 
 class EmployeeList(ListView):
     """Список сотрудников компании + форма фильтрации
@@ -42,20 +41,21 @@ class RangeList(ListView):
     template_name = 'employees/range.html'
     context_object_name = 'employees'
     number_groups = 7
-
     alpha_groups = []
 
     def get_context_data(self, **kwargs):
         max_alpha_groups = 7
         context = super(RangeList, self).get_context_data(**kwargs)
-        context['al_groups'] =  perform_alpha_groups(max_alpha_groups)
+        alpha_groups = AlphaGroup(max_alpha_groups)
+        alpha_groups.perform()
+        context['al_groups'] =  alpha_groups.items
         return context
 
     def get_queryset(self):
         alpha = self.request.GET.get('alpha', [])
         employees = []
         try:
-            employees = Employee.objects.all().filter(index__in=alpha).order_by('index')
+            employees = Employee.objects.annotate(slatter=Substr(Upper('surname'),1,1)).filter(slatter__in=alpha)
         except ValueError:
             pass
         return employees
